@@ -49,7 +49,7 @@ jobs:
 
       - name: Update k8s resources
         run: |
-          kustomize edit set image goserver=philippeberto/gitops:${{ github.sha }}
+          kustomize edit set image goserver=${{ secrets.DOCKER_USERNAME }}/gitops:${{ github.sha }}
           kustomize build k8s | kubectl apply -f -
 
       - name: Commit
