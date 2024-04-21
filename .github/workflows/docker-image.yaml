@@ -48,8 +48,10 @@ jobs:
           kustomize-version: "v5.4.1"
 
       - name: Update k8s resources
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         run: |
-          kustomize edit set image goserver=${{ secrets.DOCKER_USERNAME }}/gitops:${{ github.sha }}
+          kustomize edit set image goserver=${{ env.DOCKER_USERNAME }}/gitops:${{ github.sha }}
           kustomize build k8s | kubectl apply -f -
 
       - name: Commit
