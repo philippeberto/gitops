@@ -49,7 +49,6 @@ jobs:
 
       - name: Update k8s resources
         run: |
-          cd k8s
           kustomize edit set image goserver=philippeberto/gitops:${{ github.sha }}
           kustomize build k8s | kubectl apply -f -
 
