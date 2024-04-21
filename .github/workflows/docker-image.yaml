@@ -51,8 +51,8 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         run: |
+          cd k8s
           kustomize edit set image goserver=${{ env.DOCKER_USERNAME }}/gitops:${{ github.sha }}
-          kustomize build k8s | kubectl apply -f -
 
       - name: Commit
         run: |
