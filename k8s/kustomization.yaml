@@ -6,4 +6,4 @@ resources:
 images:
 - name: goserver
   newName: philippeberto/gitops
-  newTag: c2554e877f033e7bd19536caa00d14f4b73b9fae
+  newTag: 2173b3c1c9a70fbe6920a287bd1cdcaa24316c02
