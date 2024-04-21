@@ -39,5 +39,29 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: philippeberto/gitops:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v1
+        with:
+          kustomize-version: "v5.4.1"
+
+      - name: Update k8s resources
+        run: |
+          cd k8s
+          kustomize edit set image goserver=philippeberto/gitops:${{ github.sha }}
+          kustomize build k8s | kubectl apply -f -
+
+      - name: Commit
+        run: |
+          git config --global user.email "action#github.com"
+          git config --global user.name "GitHub Action"
+          git commit -am "Update image to ${{ github.sha }}"
+          
+      - name: Push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          repository: philippeberto/gitops
+          branch: main
